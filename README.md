@@ -39,13 +39,6 @@ The map is laid out in a grid: Similar to your worlds from Week 1 of your CS tra
 
 Your access to the server is restricted until you earn more power. Starting off, you are only allowed to make one request every 60 seconds. Sending another request before that time has elapsed will incur a penalty.
 
-## Initialization
-
-Test your API key with the init command. You can use this to get all relevant stats before you start moving.
-
-`
-curl -X GET -H 'Authorization: Token 7a375b52bdc410eebbc878ed3e58b2e94a8cb607' https://lambda-treasure-hunt.herokuapp.com/api/adv/init/
-`
 
 ## Movement
 
@@ -197,25 +190,6 @@ curl -X POST -H 'Authorization: Token 7a375b52bdc410eebbc878ed3e58b2e94a8cb607' 
 }
 ```
 
-
-## Examine
-
-You can examine players or items in your room or inventory using this command:
-
-`
-curl -X POST -H 'Authorization: Token 7a375b52bdc410eebbc878ed3e58b2e94a8cb607' -H "Content-Type: application/json" -d '{"name":"[NAME OF ITEM OR PLAYER]"}' https://lambda-treasure-hunt.herokuapp.com/api/adv/examine/
-`
-
-
-## Name Changer
-
-You can change your name once you find the name changer using the following command:
-
-`
-curl -X POST -H 'Authorization: Token 7a375b52bdc410eebbc878ed3e58b2e94a8cb607' -H "Content-Type: application/json" -d '{"name":"[NEW NAME]"}' https://lambda-treasure-hunt.herokuapp.com/api/adv/change_name/
-`
-
-
 ## Mystery
 
 The island is constantly evolving and full of mysteries. As time passes and you explore the map, you will discover ancient clues and artifacts which will lead to greater power and riches.
@@ -223,62 +197,6 @@ The island is constantly evolving and full of mysteries. As time passes and you 
 Happy hunting!
 
 
-## Git Commits
+My trello invite link:
 
-- You are required to showcase progress with at least 1 commit a day.
-  This will let your project manager know where you are and if you need
-  help. This also allows the client to get progress reports from the
-  company in a real world setting.
-
-## Trello Set Up:
-
-- [ ] Create a Trello account if you don't have one already
-- [ ] Create a new board called "LambdaMUD - {Your Name}"
-- [ ] Create lists titled `backlog`,`To Do`, `In Progress`, and `Done`
-- [ ] Fill in the `To Do` list with the MVP features listed below
-- [ ] Fill in the `backlog` list with all the extra features listed below
-- [ ] Share your board with the project manager that has been assigned to you. If you have not been assigned yet, reach out to your lead PM for guidance
-- [ ] Add your Trello URL to your project's README.md file. Commit the change, push it to your repository & submit a pull request
-
-## MVP Features:
-
-#### Client
-- [ ] Create a standalone frontend app that communicates with the server via API calls
-- [ ] Display a visual representation of the LambdaMUD Island map.
-- [ ] Automated server requests to handle cooldown and traverse the map
-- [ ] Manual control override to move to specific locations on the map
-- [ ] Ability to pick up and sell discovered treasure
-
-#### General
-- [ ] Header comments in all source files that describe overall what the file does
-- [ ] Header comments on all functions that describe what the function does, function arguments, and return values
-
-Upon your first commit, please submit a Pull Request and add _both_ the
-**Trello Set Up** and **MVP Features** Task lists to your first Pull
-Request comment:
-
-```markdown
-## Trello Set Up:
-
-- [ ] Create a Trello account if you don't have one already
-- [ ] Create a new board called "LambdaMUD - {Your Name}"
-- [ ] Create lists titled `backlog`,`To Do`, `In Progress`, and `Done`
-- [ ] Fill in the `To Do` list with the MVP features listed below
-- [ ] Fill in the `backlog` list with all the extra features listed below
-- [ ] Share your board with the project manager that has been assigned to you. If you have not been assigned yet, reach out to your lead PM for guidance
-- [ ] Add your Trello URL to your project's README.md file. Commit the change, push it to your repository & submit a pull request
-
-## MVP Features:
-
-#### Client
-- [ ] Create a standalone frontend app that communicates with the server via API calls
-- [ ] Display a visual representation of the LambdaMUD Island map.
-- [ ] Automated server requests to handle cooldown and traverse the map
-- [ ] Manual control override to move to specific locations on the map
-- [ ] Ability to pick up and sell discovered treasure
-
-
-#### General
-- [ ] Header comments in all source files that describe overall what the file does
-- [ ] Header comments on all functions that describe what the function does, function arguments, and return values
-```
+https://trello.com/invite/b/YELRfruM/149e7f75c8b05760175a34c3cd73d0e8/lambda-treasure-hunt
