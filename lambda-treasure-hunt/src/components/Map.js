@@ -1,48 +1,89 @@
 import React, { Component } from 'react';
 import Room from './Room';
 import axios from 'axios';
+import Graph from 'react-graph-vis';
 
 class Map extends Component {
 	constructor() {
 		super();
 		this.state = {
 			map: {},
-			currentRoom: 0
+			roomGraph: {
+				0: { n: 1, s: 5, e: 3, w: 7 },
+				1: { s: 0, n: 2, e: 12, w: 15 },
+				2: { s: 1 },
+				3: { w: 0, e: 4 },
+				4: { w: 3 },
+				5: { n: 0, s: 6 },
+				6: { n: 5, w: 11 },
+				7: { w: 8, e: 0 },
+				8: { e: 0 },
+				9: { n: 8, s: 10 },
+				10: { n: 9, e: 11 },
+				11: { w: 10, e: 6 },
+				12: { w: 1, e: 13 },
+				13: { w: 12, n: 14 },
+				14: { s: 13 },
+				15: { e: 1, w: 16 },
+				16: { n: 17, e: 15 },
+				17: { s: 16 }
+			},
+			currentRoom: 0,
+			graph: {
+				nodes: [{ id: 1, label: 'Node 1' }],
+				edges: [{ from: 1, to: 2 }]
+			},
+			options: {
+				layout: {},
+				edges: {
+					color: '#000000'
+				}
+			}
 		};
 	}
 	componentDidMount() {
-		//Need to replace API key with env variables!!!
-		//const apiKey = process.env.API_KEY;
 		this.init();
+		let tmpGraph = {};
+		let nodes = [];
+		let edges = [];
 
 		let roomGraph = this.state.roomGraph;
+		console.log(roomGraph);
 		for (let room_id in roomGraph) {
-			let connections = this.state.rooms[room_id].connections;
+			nodes.push({ id: room_id, label: room_id });
+			let connections = this.state.roomGraph[room_id];
 			let roomConnectionsObj = roomGraph[room_id];
+
 			for (let connection in roomConnectionsObj) {
 				let roomConnectedTo = roomConnectionsObj[connection];
 
 				if (connection === 'n') {
-					connections += 'north-connection';
-					// this.setState({...this.state, rooms[room_id][connections] : connections})
+					//connections += 'north-connection';
+					edges.push({ from: room_id, to: roomConnectedTo });
 				} else if (connection === 's') {
-					connections += 'south-connection';
+					//connections += 'south-connection';
+					edges.push({ from: room_id, to: roomConnectedTo });
 				} else if (connection === 'w') {
-					connections += 'west-connection';
+					//connections += 'west-connection';
+					edges.push({ from: room_id, to: roomConnectedTo });
 				} else if (connection === 'e') {
-					connections += 'east-connection';
+					//connections += 'east-connection';
+					edges.push({ from: room_id, to: roomConnectedTo });
 				}
-				console.log(roomConnectedTo);
-				console.log(
-					`${room_id} is connected to ${roomConnectedTo} with ${connection.toUpperCase()} connection`
-				);
+
+				console
+					.log
+					//`${room_id} is connected to ${roomConnectedTo} with ${connection.toUpperCase()} connection`
+					();
 			}
 		}
+		tmpGraph.nodes = nodes;
+		tmpGraph.edges = edges;
+		this.setState({ graph: tmpGraph }, console.log(this.state.graph));
 	}
 
 	save_map = (direction, previousRoom, currentRoom) => {
 		let map = JSON.parse(localStorage.getItem('map'));
-		console.log(map);
 		if (map) {
 			let exitsObj = {};
 			currentRoom.exits.forEach(exit => {
@@ -68,12 +109,12 @@ class Map extends Component {
 			} else {
 				map[currentRoom.room_id][this.inverse_directions(direction)] = prevRoom;
 			}
-			console.log(map);
 		}
 
 		//save map to state and local storage
 		this.setState({ map: map });
 		localStorage.setItem('map', JSON.stringify(map));
+		console.log('saved map to state, should be available now!');
 	};
 
 	load_map = () => {
@@ -92,6 +133,36 @@ class Map extends Component {
 			return 'w';
 		}
 	};
+
+	backtrack = currentRoom => {
+		let q = [];
+		let visited = new Set();
+		let map = JSON.parse(localStorage.getItem('map'));
+		q.push([currentRoom]);
+		while (q.length > 0) {
+			let path = q.shift();
+			console.log('path', path);
+
+			let node = path[path.length - 1];
+			console.log('node ', node);
+			console.log(map);
+			console.log('map[node]', map[node]);
+			if (!visited.has(node)) {
+				visited.add(node);
+				for (let [exit, room] of Object.entries(map[node])) {
+					console.log('exit', exit);
+					if (map[node][exit] == '?') {
+						return path;
+					} else {
+						let path_copy = path.slice();
+						path_copy.push(map[node][exit]);
+						q.push(path_copy);
+					}
+				}
+			}
+		}
+		return null;
+	};
 	travel = dir => {
 		console.log('lets travel ' + dir.toUpperCase());
 		const data = { direction: dir };
@@ -101,7 +172,7 @@ class Map extends Component {
 		const options = {
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: 'Token ' + apiKey
+				Authorization: 'Token ' + '5f617e0516906e55ab4530499df985499805a4db'
 			}
 		};
 
@@ -113,10 +184,15 @@ class Map extends Component {
 				console.log(`prev room: ${prevRoom.room_id}`);
 				console.log(`direction: ${dir}`);
 				console.log(`current room ${response.data.room_id}`);
-				this.setState(
-					{ ...this.state, currentRoom: response.data },
-					this.save_map(dir, prevRoom, currentRoom)
-				);
+
+				if (prevRoom.room_id === currentRoom.room_id) {
+					console.log('something went wrong with our travels');
+				} else {
+					this.setState(
+						{ ...this.state, currentRoom: response.data },
+						this.save_map(dir, prevRoom, currentRoom)
+					);
+				}
 			})
 			.catch(err => console.log(err));
 	};
@@ -129,7 +205,12 @@ class Map extends Component {
 
 	moveAround = () => {
 		let currentRoom = this.state.currentRoom;
-		let currentRoomExits = this.state.map[currentRoom.room_id];
+		console.log('Current room:', currentRoom.room_id);
+		console.log('Current map:');
+		let map = JSON.parse(localStorage.getItem('map'));
+		console.log(map);
+		let currentRoomExits = map[currentRoom.room_id];
+
 		let unexplored = [];
 		console.log(currentRoomExits);
 
@@ -147,13 +228,48 @@ class Map extends Component {
 		} else {
 			//reached a dead end
 			//back track to prev room with unexplored exits
-			console.log('no unexplored exits available. need to go back');
+			console.log(
+				'no unexplored exits available in room ' +
+					currentRoom.room_id +
+					', need to go back'
+			);
+
+			if (!(currentRoom.room_id in map)) {
+				console.log('map does not have current room in graph');
+			}
+			let path = this.backtrack(currentRoom.room_id);
+			if (path === null) {
+				// no more unexplored rooms
+				console.log('done traversing!');
+			} else {
+				console.log('path', path);
+				let directions_to_shortest = [];
+				let currentRoom = path.shift();
+				console.log(currentRoom);
+				console.log('map[currentRoom]', map[currentRoom]);
+				for (let room of path) {
+					for (let direction in map[currentRoom]) {
+						console.log(direction);
+						if (map[currentRoom][direction] === room) {
+							directions_to_shortest.push(direction);
+							// currentRoom = room;
+							// break;
+						}
+					}
+				}
+				for (let direction of directions_to_shortest) {
+					setTimeout(
+						this.travel(direction),
+						this.state.currentRoom.cooldown * 1000
+					);
+				}
+			}
 		}
 	};
 
 	init = () => {
 		const initURL = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/init/';
-		const apiKey = 'Token ' + '5f617e0516906e55ab4530499df985499805a4db';
+		const apiKey = '5f617e0516906e55ab4530499df985499805a4db' + process.env.REACT_APP_API_KEY;
 		const options = {
 			headers: {
 				Authorization: apiKey
@@ -188,24 +304,66 @@ class Map extends Component {
 		console.log(this.state);
 		return (
 			<div className="map-container">
-				<div className="nav-controls">
-					<button onClick={e => this.travel('n')}>Travel North </button>
-					<br />
-					<button onClick={e => this.travel('s')}>Travel South </button>
-					<br />
-					<br />
-					<button onClick={e => this.travel('w')}>Travel West </button>
-					<button onClick={e => this.travel('e')}>Travel East </button>
-					<br />
-					<br />
-					<button onClick={e => this.traverse()}>Let's traverse! </button>
+				<div className="map-info">
+					<div className="nav-controls">
+						<h3>Directions: </h3>
+						<button onClick={e => this.travel('n')}>Travel North </button>
+						<br />
+						<button onClick={e => this.travel('s')}>Travel South </button>
+						<br />
+						<br />
+						<button onClick={e => this.travel('w')}>Travel West </button>
+						<button onClick={e => this.travel('e')}>Travel East </button>
+						<br />
+						<br />
+						<button onClick={e => this.traverse()}>Let's traverse! </button>
+					</div>
+					<div className="current-room-info">
+						<h3>Current Room Info:</h3>
+						<p>
+							Current room:{' '}
+							{`${this.state.currentRoom.title} (${
+								this.state.currentRoom.room_id
+							})`}
+						</p>
+						<p>Room Description: {this.state.currentRoom.description}</p>
+						<p>
+							Possible exits:
+							{this.state.currentRoom
+								? this.state.currentRoom.exits.map(
+										exit => exit.toUpperCase() + ', '
+								  )
+								: ''}
+						</p>
+						<p>Cooldown: {this.state.currentRoom.cooldown}</p>
+					</div>
 				</div>
 
-				{Object.keys(this.state.map).map(room => (
+				<div id="map" className="map">
+					<Graph
+						graph={this.state.graph}
+						options={this.state.options}
+						events={this.state.events}
+					/>
+				</div>
+				{/* {Object.keys(this.state.map).map(room => (
 					<Room id={room} />
-				))}
+				))} */}
 
-				
+				{/* <div className="map">
+					{this.state.rows.map(row => {
+						return (
+							<div className="row">
+								{this.state.rooms.map(room => (
+									<Room
+										connection="north-connection south-connection"
+										id={room}
+									/>
+								))}
+							</div>
+						);
+					})}
+				</div> */}
 			</div>
 		);
 	}
