@@ -87,7 +87,7 @@ video {
   margin: 0;
   padding: 0;
   border: 0;
-  font-size: 100%;
+  font-size: 80%;
   font: inherit;
   vertical-align: baseline;
 }
@@ -142,8 +142,8 @@ body {
   padding: 0;
   font-size: 1.6rem;
   line-height: 1.5;
-  background: #efefef;
-  color: #3b3f3f;
+  background: black;
+  color: purple;
   font-family: 'Rubik', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

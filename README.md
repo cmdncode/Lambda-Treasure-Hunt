@@ -6,7 +6,6 @@ After the war between the humans and machines, we were left in a world straddlin
 
 Happy hunting!
 
-Trello URL: https://trello.com/b/lJNvt8vm/lambda-treasure-hunt-alejandro-krasovsky
 
 ## Overview
 
