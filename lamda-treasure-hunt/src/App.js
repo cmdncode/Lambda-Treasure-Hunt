@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { Router } from 'react-router-dom';
-import '/css/index.css';
+import './index.css';
 
-class App extends Router {
+class App extends Component {
   render() {
     return (
       <div className="App">
-        <h1>Hello!!!</h1>
+        <header>Hello!!!</header>
       </div>
     );
   }}
