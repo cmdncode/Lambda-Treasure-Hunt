@@ -30,11 +30,10 @@ export default class Form extends Component {
                 <h3>Add User</h3>
                 <form onSubmit={this.onSubmit}>
                     <div className="form-group">
-                        <label>Add User:  </label>
                         <input type="text" className="form-control" value={this.state.UserName}  onChange={this.onChangeUserName}/>
                     </div>
                     <div className="form-group">
-                        <input type="submit" value="Add User Name" className="btn btn-primary"/>
+                        <input type="submit" value="Enter the game" className="btn btn-primary"/>
                     </div>
                 </form>
             </div>
