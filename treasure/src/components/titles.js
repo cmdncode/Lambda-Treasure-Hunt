@@ -1,17 +1,11 @@
-import React from "react";
+import React from 'react';
 
-
-class Titles extends React.Component {
-  render (){
-    return(
-      <div>
-        <h1>Lambda Treasure Map</h1>
-        <p>Explore the map and collect the hidden treasure!</p>
-      </div>
-      
-
+const Titles = () => {
+    return (
+        <div>
+            <h1>Welcome to Lambda Treasure Hunt!!</h1>
+        </div>
     );
-  }
-}
+};
 
 export default Titles;

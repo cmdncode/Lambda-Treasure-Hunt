@@ -41,13 +41,13 @@ Your access to the server is restricted until you earn more power. Starting off,
 
 Test your API key with the init command. You can use this to get all relevant stats before you start moving.
 
-`curl -X GET -H 'Authorization: Token 7a375b52bdc410eebbc878ed3e58b2e94a8cb607' https://lambda-treasure-hunt.herokuapp.com/api/adv/init/`
+`curl -X GET -H 'Authorization: Token 5f617e0516906e55ab4530499df985499805a4db' https://lambda-treasure-hunt.herokuapp.com/api/adv/init/`
 
 ## Movement
 
 All actions are executed via REST API commands to the Lambda Treasure Hunt server. Here is an example movement command:
 
-`curl -X POST -H 'Authorization: Token 7a375b52bdc410eebbc878ed3e58b2e94a8cb607' -H "Content-Type: application/json" -d '{"direction":"n"}' https://lambda-treasure-hunt.herokuapp.com/api/adv/move/`
+`curl -X POST -H 'Authorization: Token 5f617e0516906e55ab4530499df985499805a4db' -H "Content-Type: application/json" -d '{"direction":"n"}' https://lambda-treasure-hunt.herokuapp.com/api/adv/move/`
 
 You will receive an authorization token following successful completion of Friday's Sprint Challenge. This serves as your unique identifier and authentication key. Don't share this key!
 

@@ -6,7 +6,7 @@ export default class Traverse extends Component {
   constructor (props) {
     super(props)
     this.state={
-      room_id: 0
+      roomid: 0
     }
   }
   componentDidMount () {
@@ -16,9 +16,9 @@ export default class Traverse extends Component {
     axios
       .get('https://lambda-treasure-hunt.herokuapp.com/api/adv/init/', header)
       .then((response) => {
-        console.log(response.data)
+        console.log('connecting to server')
         this.setState({
-          room_id: response.data.room_id
+          roomid: response.data.room_id
         })
       })
       .catch((error) => {
@@ -37,8 +37,6 @@ export default class Traverse extends Component {
       .catch((err) => console.error('could not post to server...'))
   }
   render () {
-    return (<div>
-      room_id:{this.state.room_id}
-    </div>)
+    return (<div></div>)
   }
 }
