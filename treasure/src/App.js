@@ -1,30 +1,23 @@
-import React from "react";
-import Form from "./components/form";
-import Map from "./components/map";
-import Traverse from "./components/traversal";
+import React, { Component } from 'react';
+import Titles from './components/titles'
+import Stats from './components/stats'
+import Map from './components/map'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 
 
-class App extends React.Component {
+export default class App extends Component {
   render() {
-    return(
-      <div className="container">
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <p className="navbar-brand">Lambda Treasure Hunt</p> 
-            <div className="collapse navbar-collapse" id="navbarSupportedContent">
-              <hr />
-            </div>
-          </nav> 
-          <br />
-        <Form />
+    return (
+      <div className="App">
+        <Titles />
+        <Stats />
         <Map />
-        <Traverse />
       </div>
     );
-  }
-}
+  };
+};
 
-export default App;
+
 
 
