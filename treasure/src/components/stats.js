@@ -179,13 +179,13 @@ return graph;
 
     return (
       <div>
-        <p>{errors}</p>
-        <p>{messages} You are now in <strong>room {room_id}</strong>, {title}.</p>
-        <p>{description}</p>
-        <p>This room contains item(s): <strong>{items}</strong></p>
-        <p>This room has player(s): <strong>{players}</strong></p>
-        <p>You must wait <strong>{cooldown} seconds</strong> before your next move.</p>
-        <p>Your next moving options are <strong>{exits}</strong>.</p>
+        <p>{errors }</p>
+        <p>{messages } You are now in <strong>room {room_id }</strong>, {title }.</p>
+        <p>{description }</p>
+        <p>This room contains item(s): <strong>{items }</strong></p>
+        <p>This room has player(s): <strong>{players }</strong></p>
+        <p>You must wait <strong>{cooldown } seconds</strong> before your next move.</p>
+        <p>Your next moving options are <strong>{exits }</strong>.</p>
 
         <button onClick={() => this.move('w')}>West</button>
         <button onClick={() => this.move('n')}>North</button>
