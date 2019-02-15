@@ -14,10 +14,10 @@ export default class App extends Component {
         <Titles />
         <Stats />
         <Map />
-        <ReactCytoscape containerID="map" 
-        elements={this.getElements()} 
+        {/* <ReactCytoscape containerID="map" 
+        elements={this.getElements} 
         cyRef={(map) => { this.map = map; console.log(this.map) }} 
-        layout={{name: 'ROOM'}} />  
+        layout={{name: 'ROOM'}} />   */}
       </div>
     );
   };
